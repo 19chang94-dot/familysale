@@ -1,0 +1,1844 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>패밀리세일 영업2부 사다리 근무표</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-2: #eef4f7;
+      --ink: #17202a;
+      --muted: #5f6b7a;
+      --line: #d7dee8;
+      --teal: #167264;
+      --teal-dark: #0f574d;
+      --coral: #d9534f;
+      --yellow: #f2c94c;
+      --green-soft: #dff4ed;
+      --red-soft: #ffe5e2;
+      --blue-soft: #e4f0ff;
+      --shadow: 0 14px 40px rgba(31, 47, 70, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+      padding: 0 14px;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      border-color: #9eb0c5;
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button.primary {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    button.primary:hover {
+      background: var(--teal-dark);
+      border-color: var(--teal-dark);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+    }
+
+    input,
+    select {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 0 12px;
+      color: var(--ink);
+      width: 170px;
+    }
+
+    select {
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: middle;
+      font-size: 13px;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      background: #f9fbfd;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .app {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: clamp(22px, 2.1vw, 32px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .title-block p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+      max-width: 680px;
+    }
+
+    .stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: 0 5px 14px rgba(31, 47, 70, 0.04);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .stat strong {
+      font-size: 14px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(330px, 420px) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 58px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    .panel-head small {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #f9fbfd;
+    }
+
+    .seed-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-right: 2px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .fixed-form {
+      display: grid;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #f9fbfd;
+    }
+
+    .fixed-form label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .fixed-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .fixed-list td {
+      font-size: 12px;
+    }
+
+    .fixed-empty {
+      padding: 22px 16px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      white-space: nowrap;
+    }
+
+    .badge.ok {
+      color: #0b5d4e;
+      background: var(--green-soft);
+      border-color: #b7dece;
+    }
+
+    .badge.warn {
+      color: #8a3c00;
+      background: #fff1cf;
+      border-color: #ead18d;
+    }
+
+    .badge.hot {
+      color: #95342f;
+      background: var(--red-soft);
+      border-color: #efb9b3;
+    }
+
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 999px;
+      padding: 0 8px;
+      font-size: 11px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      background: #edf2f6;
+      white-space: nowrap;
+    }
+
+    .source-badge.fixed {
+      color: #8a3c00;
+      background: #fff1cf;
+      border-color: #ead18d;
+    }
+
+    .source-badge.draw {
+      color: #0b5d4e;
+      background: var(--green-soft);
+      border-color: #b7dece;
+    }
+
+    .ladder-scroll {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    }
+
+    #ladderCanvas {
+      display: block;
+      height: 640px;
+      min-width: 100%;
+    }
+
+    .table-wrap {
+      max-height: 540px;
+      overflow: auto;
+    }
+
+    .people-table tbody tr,
+    .result-table tbody tr {
+      cursor: pointer;
+    }
+
+    .people-table tbody tr:hover,
+    .result-table tbody tr:hover {
+      background: #f5f9fb;
+    }
+
+    .people-table tbody tr.active,
+    .result-table tbody tr.active {
+      background: var(--blue-soft);
+    }
+
+    .name-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .number {
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: #edf2f6;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    .person-name {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .excluded {
+      color: var(--muted);
+      background: #f9fafb;
+    }
+
+    .fixed-row {
+      background: #fffaf0;
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(118px, 1fr));
+      border-top: 1px solid var(--line);
+    }
+
+    .day-box {
+      min-height: 98px;
+      padding: 12px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .day-box:nth-child(7n) {
+      border-right: 0;
+    }
+
+    .day-box strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .day-box span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 0 9px;
+      background: #edf5f1;
+      color: #0b5d4e;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .day-box ul {
+      list-style: none;
+      margin: 9px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .empty-state {
+      padding: 44px 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty-state strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      font-size: 17px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 20;
+      min-width: min(360px, calc(100vw - 36px));
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #17202a;
+      color: #fff;
+      font-size: 13px;
+      box-shadow: 0 14px 32px rgba(20, 28, 38, 0.22);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 1080px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        flex-direction: column;
+      }
+
+      .stats {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 740px) {
+      .app {
+        padding: 14px;
+      }
+
+      .toolbar {
+        align-items: stretch;
+      }
+
+      .seed-wrap,
+      .toolbar button,
+      .toolbar input,
+      .toolbar select {
+        width: 100%;
+      }
+
+      .seed-wrap {
+        display: grid;
+      }
+
+      .schedule-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .day-box:nth-child(7n) {
+        border-right: 1px solid var(--line);
+      }
+
+      .day-box:nth-child(2n) {
+        border-right: 0;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .toolbar,
+      .people-table,
+      .ladder-scroll,
+      .toast {
+        display: none !important;
+      }
+
+      .app {
+        max-width: none;
+        padding: 0;
+      }
+
+      .panel {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="title-block">
+        <h1>패밀리세일 영업2부 사다리 근무표</h1>
+        <p>2026년 7월 8일-14일 / 영업2부, E-BIZ 포함</p>
+      </div>
+      <div class="stats" aria-label="요약">
+        <span class="stat">근무가능 <strong id="statPeople">0</strong>명</span>
+        <span class="stat">필요 슬롯 <strong id="statSlots">0</strong>개</span>
+        <span class="stat">지정 <strong id="statFixed">0</strong>명</span>
+        <span class="stat">제외 <strong id="statExcluded">0</strong>명</span>
+        <span class="stat">중복근무 <strong id="statRepeat">필요 0명</strong></span>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <aside class="stack">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>영업2부 명단</h2>
+            <small>7/8 기준</small>
+          </div>
+          <div class="table-wrap">
+            <table class="people-table">
+              <thead>
+                <tr>
+                  <th>성명</th>
+                  <th>팀</th>
+                  <th>직위</th>
+                </tr>
+              </thead>
+              <tbody id="peopleBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>지정 배치</h2>
+            <small>먼저 잠그기</small>
+          </div>
+          <div class="fixed-form">
+            <label>
+              사람
+              <select id="fixedPersonSelect" aria-label="지정할 사람"></select>
+            </label>
+            <label>
+              근무 슬롯
+              <select id="fixedSlotSelect" aria-label="지정할 근무 슬롯"></select>
+            </label>
+            <div class="fixed-actions">
+              <button class="primary" id="addFixedBtn" type="button">지정 추가</button>
+              <button id="clearFixedBtn" type="button">전체 해제</button>
+            </div>
+          </div>
+          <div id="fixedListArea">
+            <div class="fixed-empty">지정된 근무자가 없습니다.</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>제외 인원</h2>
+            <small>추첨 제외</small>
+          </div>
+          <div class="fixed-form">
+            <label>
+              추가 제외
+              <select id="excludedPersonSelect" aria-label="추가 제외할 사람"></select>
+            </label>
+            <div class="fixed-actions">
+              <button class="primary" id="addExcludedBtn" type="button">제외 추가</button>
+              <button id="clearExtraExcludedBtn" type="button">추가 제외 해제</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>성명</th>
+                  <th>팀</th>
+                  <th>직위</th>
+                  <th>관리</th>
+                </tr>
+              </thead>
+              <tbody id="excludedBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </aside>
+
+      <section class="stack">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>사다리 타기</h2>
+            <small id="seedLabel"></small>
+          </div>
+          <div class="toolbar">
+            <label class="seed-wrap">
+              시드
+              <input id="seedInput" type="text" autocomplete="off" spellcheck="false">
+            </label>
+            <button class="primary" id="drawBtn" type="button">사다리 타기</button>
+            <button id="rerollBtn" type="button">다시 섞기</button>
+            <button id="copyBtn" type="button" disabled>결과 복사</button>
+            <button id="csvBtn" type="button" disabled>CSV 저장</button>
+            <button id="printBtn" type="button" disabled>인쇄</button>
+          </div>
+          <div class="status-bar" id="statusBar"></div>
+          <div class="ladder-scroll" id="ladderScroll">
+            <canvas id="ladderCanvas" aria-label="사다리 게임"></canvas>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>날짜별 결과</h2>
+            <small id="resultSummary">추첨 전</small>
+          </div>
+          <div class="schedule-grid" id="scheduleGrid"></div>
+          <div id="resultArea">
+            <div class="empty-state">
+              <strong>결과 대기</strong>
+              <span>사다리 타기 버튼을 누르면 근무표가 표시됩니다.</span>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const PEOPLE = [
+      { name: "김재필", team: "대리점팀", title: "과장" },
+      { name: "이은총", team: "대리점팀", title: "선임" },
+      { name: "신종민", team: "직영/팩토리팀", title: "과장" },
+      { name: "김지섭", team: "직영/팩토리팀", title: "과장" },
+      { name: "곽기륜", team: "직영/팩토리팀", title: "선임" },
+      { name: "정희주", team: "직영/팩토리팀", title: "인턴" },
+      { name: "반재원", team: "E-BIZ(입점몰)", title: "대리" },
+      { name: "최다빈", team: "E-BIZ(입점몰)", title: "대리" },
+      { name: "고주현", team: "E-BIZ(입점몰)", title: "사원" },
+      { name: "고효서", team: "E-BIZ(자사몰)", title: "과장" },
+      { name: "성예슬", team: "E-BIZ(자사몰)", title: "대리" },
+      { name: "배주현", team: "E-BIZ(자사몰)", title: "선임" },
+      { name: "이하미", team: "E-BIZ(콘텐츠)", title: "과장" },
+      { name: "김은애", team: "E-BIZ(콘텐츠)", title: "대리" },
+      { name: "신근수", team: "E-BIZ(콘텐츠)", title: "선임" },
+      { name: "손고운", team: "E-BIZ(콘텐츠)", title: "선임" },
+      { name: "이정화", team: "E-BIZ(콘텐츠)", title: "선임" },
+      { name: "김도윤", team: "E-BIZ팀(웹디자인)", title: "대리" },
+      { name: "최슬기", team: "E-BIZ팀(웹디자인)", title: "대리" },
+      { name: "권세미", team: "E-BIZ팀(웹디자인)", title: "사원" }
+    ];
+
+    const EXCLUDED = [
+      { name: "김창만", team: "영업2부", title: "수석" },
+      { name: "조민구", team: "대리점팀", title: "차장" },
+      { name: "장재원", team: "대리점팀", title: "대리" },
+      { name: "김은준", team: "직영/팩토리팀", title: "차장" },
+      { name: "황혜성", team: "E-BIZ팀", title: "차장" },
+      { name: "이서아", team: "E-BIZ(입점몰)", title: "과장" },
+      { name: "남지혜", team: "E-BIZ팀(웹디자인)", title: "대리" }
+    ];
+
+    const SLOT_PLAN = [
+      {
+        date: "2026-07-08",
+        label: "7/8",
+        day: "수",
+        slots: [
+          { part: "PART1", partOrder: 1, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 2, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART2", partOrder: 1, time: "10:00~19:30", duty: "캐비넷" }
+        ]
+      },
+      {
+        date: "2026-07-09",
+        label: "7/9",
+        day: "목",
+        slots: [
+          { part: "PART1", partOrder: 1, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 2, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 3, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART2", partOrder: 1, time: "10:00~19:30", duty: "캐비넷" }
+        ]
+      },
+      {
+        date: "2026-07-10",
+        label: "7/10",
+        day: "금",
+        slots: [
+          { part: "PART1", partOrder: 1, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 2, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 3, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART2", partOrder: 1, time: "10:00~19:30", duty: "캐비넷" }
+        ]
+      },
+      {
+        date: "2026-07-11",
+        label: "7/11",
+        day: "토",
+        slots: [
+          { part: "PART1", partOrder: 1, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 2, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 3, time: "09:30~19:30", duty: "상품보충/행거정리" }
+        ]
+      },
+      {
+        date: "2026-07-12",
+        label: "7/12",
+        day: "일",
+        slots: [
+          { part: "PART1", partOrder: 1, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 2, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 3, time: "09:30~19:30", duty: "상품보충/행거정리" }
+        ]
+      },
+      {
+        date: "2026-07-13",
+        label: "7/13",
+        day: "월",
+        slots: [
+          { part: "PART1", partOrder: 1, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 2, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 3, time: "09:30~19:30", duty: "상품보충/행거정리" }
+        ]
+      },
+      {
+        date: "2026-07-14",
+        label: "7/14",
+        day: "화",
+        slots: [
+          { part: "PART1", partOrder: 1, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 2, time: "09:30~19:30", duty: "상품보충/행거정리" },
+          { part: "PART1", partOrder: 3, time: "09:30~19:30", duty: "상품보충/행거정리" }
+        ]
+      }
+    ];
+
+    const COLORS = ["#167264", "#d9534f", "#386fa4", "#ba7b00", "#4b7f52", "#7a5c9e", "#c35f2e"];
+    const canvas = document.getElementById("ladderCanvas");
+    const ctx = canvas.getContext("2d");
+    const peopleBody = document.getElementById("peopleBody");
+    const excludedBody = document.getElementById("excludedBody");
+    const excludedPersonSelect = document.getElementById("excludedPersonSelect");
+    const addExcludedBtn = document.getElementById("addExcludedBtn");
+    const clearExtraExcludedBtn = document.getElementById("clearExtraExcludedBtn");
+    const fixedPersonSelect = document.getElementById("fixedPersonSelect");
+    const fixedSlotSelect = document.getElementById("fixedSlotSelect");
+    const addFixedBtn = document.getElementById("addFixedBtn");
+    const clearFixedBtn = document.getElementById("clearFixedBtn");
+    const fixedListArea = document.getElementById("fixedListArea");
+    const scheduleGrid = document.getElementById("scheduleGrid");
+    const resultArea = document.getElementById("resultArea");
+    const resultSummary = document.getElementById("resultSummary");
+    const statusBar = document.getElementById("statusBar");
+    const seedInput = document.getElementById("seedInput");
+    const seedLabel = document.getElementById("seedLabel");
+    const drawBtn = document.getElementById("drawBtn");
+    const rerollBtn = document.getElementById("rerollBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const csvBtn = document.getElementById("csvBtn");
+    const printBtn = document.getElementById("printBtn");
+    const toast = document.getElementById("toast");
+
+    const baseSlots = buildBaseSlots();
+    let state = {
+      seed: makeSeed(),
+      bars: [],
+      bottomSlots: [],
+      drawPeople: [],
+      drawSlots: [],
+      assignments: [],
+      fixedAssignments: [],
+      excludedPersonIndices: [],
+      revealed: false,
+      selectedIndex: 0,
+      animatingPath: null
+    };
+
+    function buildBaseSlots() {
+      return SLOT_PLAN.flatMap((day) => day.slots.map((slot, slotIndex) => ({
+        id: `${day.date}-${slot.part}-${slot.partOrder}`,
+        date: day.date,
+        label: day.label,
+        day: day.day,
+        dateLabel: `${day.label}(${day.day})`,
+        count: day.slots.length,
+        slotIndex: slotIndex + 1,
+        ...slot
+      })));
+    }
+
+    function slotLabel(slot) {
+      return `${slot.dateLabel} ${slot.part}-${slot.partOrder} ${slot.time}`;
+    }
+
+    function getSlotById(slotId) {
+      return baseSlots.find((slot) => slot.id === slotId);
+    }
+
+    function getFixedAssignment(personIndex) {
+      return state.fixedAssignments.find((item) => item.personIndex === personIndex);
+    }
+
+    function isExtraExcluded(personIndex) {
+      return state.excludedPersonIndices.includes(personIndex);
+    }
+
+    function isPersonFixed(personIndex) {
+      return Boolean(getFixedAssignment(personIndex));
+    }
+
+    function isSlotFixed(slotId) {
+      return state.fixedAssignments.some((item) => item.slotId === slotId);
+    }
+
+    function getEligiblePeople() {
+      return PEOPLE
+        .map((person, personIndex) => ({ person, personIndex, repeat: false }))
+        .filter((item) => !isExtraExcluded(item.personIndex));
+    }
+
+    function getRemainingPeople() {
+      return getEligiblePeople()
+        .filter((item) => !isPersonFixed(item.personIndex));
+    }
+
+    function getRemainingSlots() {
+      return baseSlots.filter((slot) => !isSlotFixed(slot.id));
+    }
+
+    function getFixedResultAssignments() {
+      return state.fixedAssignments
+        .filter((fixed) => !isExtraExcluded(fixed.personIndex))
+        .map((fixed) => ({
+          person: PEOPLE[fixed.personIndex],
+          personIndex: fixed.personIndex,
+          drawIndex: null,
+          bottomIndex: null,
+          slot: getSlotById(fixed.slotId),
+          repeat: false,
+          source: "지정"
+        }));
+    }
+
+    function chooseSelectedPerson(assignments) {
+      const drawn = assignments.find((item) => item.source !== "지정");
+      if (drawn) {
+        return drawn.personIndex;
+      }
+      return assignments[0] ? assignments[0].personIndex : 0;
+    }
+
+    function repeatNeed() {
+      return Math.max(0, baseSlots.length - getEligiblePeople().length);
+    }
+
+    function fillRepeatPeople(drawPeople, drawSlots, rng) {
+      if (drawPeople.length >= drawSlots.length) {
+        return drawPeople.slice(0, drawSlots.length);
+      }
+
+      const eligiblePeople = getEligiblePeople();
+      const repeatPoolBase = drawPeople.length ? drawPeople : eligiblePeople;
+      const needed = drawSlots.length - drawPeople.length;
+      const repeatPeople = [];
+      while (repeatPeople.length < needed && repeatPoolBase.length > 0) {
+        repeatPeople.push(...shuffle(repeatPoolBase, rng).map((item) => ({
+          ...item,
+          repeat: true
+        })));
+      }
+      return [...drawPeople, ...repeatPeople.slice(0, needed)];
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function mulberry32(seed) {
+      return function random() {
+        let t = seed += 0x6d2b79f5;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function shuffle(items, rng) {
+      const next = [...items];
+      for (let i = next.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(rng() * (i + 1));
+        [next[i], next[j]] = [next[j], next[i]];
+      }
+      return next;
+    }
+
+    function makeSeed() {
+      const now = new Date();
+      const date = now.toISOString().slice(0, 10).replaceAll("-", "");
+      const random = Math.floor(Math.random() * 0xfffff).toString(36).toUpperCase().padStart(4, "0");
+      return `FS-${date}-${random}`;
+    }
+
+    function createBars(columnCount, rng) {
+      const levels = Math.max(28, Math.round(columnCount * 1.45));
+      const bars = [];
+      for (let level = 0; level < levels; level += 1) {
+        let lastLeft = -3;
+        for (let left = 0; left < columnCount - 1; left += 1) {
+          if (left <= lastLeft + 1) {
+            continue;
+          }
+          const edgeBoost = left === 0 || left === columnCount - 2 ? 0.05 : 0;
+          if (rng() < 0.28 + edgeBoost) {
+            bars.push({ level, left });
+            lastLeft = left;
+          }
+        }
+      }
+      return bars;
+    }
+
+    function followPath(startIndex, bars, columnCount) {
+      let position = startIndex;
+      const sortedBars = [...bars].sort((a, b) => a.level - b.level || a.left - b.left);
+      for (const bar of sortedBars) {
+        if (bar.left === position) {
+          position += 1;
+        } else if (bar.left === position - 1) {
+          position -= 1;
+        }
+        position = Math.max(0, Math.min(columnCount - 1, position));
+      }
+      return position;
+    }
+
+    function buildDraw(seed) {
+      const rng = mulberry32(hashSeed(seed));
+      const drawPeople = fillRepeatPeople(getRemainingPeople(), getRemainingSlots(), rng);
+      const drawSlots = getRemainingSlots();
+      const bars = createBars(drawPeople.length, rng);
+      const bottomSlots = shuffle(drawSlots, rng);
+      const drawnAssignments = drawPeople.map((entry, index) => {
+        const bottomIndex = followPath(index, bars, drawPeople.length);
+        const slot = bottomSlots[bottomIndex];
+        return {
+          person: entry.person,
+          personIndex: entry.personIndex,
+          drawIndex: index,
+          bottomIndex,
+          slot,
+          repeat: entry.repeat,
+          source: entry.repeat ? "추첨(중복)" : "추첨"
+        };
+      });
+      const assignments = [...getFixedResultAssignments(), ...drawnAssignments];
+      return { bars, bottomSlots, drawPeople, drawSlots, assignments };
+    }
+
+    function validateDraw(assignments) {
+      const names = new Set(assignments.map((item) => item.person.name));
+      const slots = new Set(assignments.map((item) => item.slot.id));
+      const fixedPeople = new Set(state.fixedAssignments.map((item) => item.personIndex));
+      const fixedSlots = new Set(state.fixedAssignments.map((item) => item.slotId));
+      const eligiblePeople = getEligiblePeople();
+      return {
+        workersCovered: names.size === eligiblePeople.length,
+        slotsUnique: slots.size === baseSlots.length,
+        slotsFilled: assignments.length === baseSlots.length,
+        repeatCount: assignments.length - names.size,
+        fixedPeopleUnique: fixedPeople.size === state.fixedAssignments.length,
+        fixedSlotsUnique: fixedSlots.size === state.fixedAssignments.length
+      };
+    }
+
+    function runDraw(useNewSeed) {
+      if (getEligiblePeople().length === 0) {
+        showToast("근무 가능한 인원이 없습니다.");
+        return;
+      }
+
+      if (useNewSeed) {
+        state.seed = makeSeed();
+        seedInput.value = state.seed;
+      } else {
+        state.seed = seedInput.value.trim() || makeSeed();
+        seedInput.value = state.seed;
+      }
+
+      const draw = buildDraw(state.seed);
+      state = {
+        ...state,
+        ...draw,
+        revealed: true,
+        selectedIndex: chooseSelectedPerson(draw.assignments),
+        animatingPath: null
+      };
+      renderAll();
+      animateSelectedPath(state.selectedIndex);
+      showToast(`지정 ${state.fixedAssignments.length}명, 추첨 ${state.drawPeople.length}칸 배치 완료`);
+    }
+
+    function renderAll() {
+      renderStats();
+      renderFixedControls();
+      renderPeople();
+      renderExcluded();
+      renderScheduleGrid();
+      renderStatus();
+      renderResults();
+      drawLadder();
+    }
+
+    function renderStats() {
+      const eligibleCount = getEligiblePeople().length;
+      const excludedCount = EXCLUDED.length + state.excludedPersonIndices.length;
+      const repeatCount = repeatNeed();
+      document.getElementById("statPeople").textContent = eligibleCount;
+      document.getElementById("statSlots").textContent = baseSlots.length;
+      document.getElementById("statFixed").textContent = state.fixedAssignments.length;
+      document.getElementById("statExcluded").textContent = excludedCount;
+      document.getElementById("statRepeat").textContent = repeatCount ? `필요 ${repeatCount}명` : "필요 없음";
+      seedLabel.textContent = state.seed ? `seed ${state.seed}` : "";
+      const controlsEnabled = state.revealed;
+      copyBtn.disabled = !controlsEnabled;
+      csvBtn.disabled = !controlsEnabled;
+      printBtn.disabled = !controlsEnabled;
+    }
+
+    function renderFixedControls() {
+      const previousPerson = fixedPersonSelect.value;
+      const previousSlot = fixedSlotSelect.value;
+      const fixedPeople = new Set(state.fixedAssignments.map((item) => item.personIndex));
+      const fixedSlots = new Set(state.fixedAssignments.map((item) => item.slotId));
+
+      fixedPersonSelect.innerHTML = [
+        `<option value="">사람 선택</option>`,
+        ...PEOPLE.map((person, index) => {
+          const disabled = fixedPeople.has(index) || isExtraExcluded(index) ? "disabled" : "";
+          return `<option value="${index}" ${disabled}>${person.name} / ${person.team} / ${person.title}</option>`;
+        })
+      ].join("");
+
+      fixedSlotSelect.innerHTML = [
+        `<option value="">근무 슬롯 선택</option>`,
+        ...baseSlots.map((slot) => {
+          const disabled = fixedSlots.has(slot.id) ? "disabled" : "";
+          return `<option value="${slot.id}" ${disabled}>${slotLabel(slot)} / ${slot.duty}</option>`;
+        })
+      ].join("");
+
+      if (previousPerson && !fixedPeople.has(Number(previousPerson)) && !isExtraExcluded(Number(previousPerson))) {
+        fixedPersonSelect.value = previousPerson;
+      }
+      if (previousSlot && !fixedSlots.has(previousSlot)) {
+        fixedSlotSelect.value = previousSlot;
+      }
+
+      addFixedBtn.disabled = state.fixedAssignments.length >= getEligiblePeople().length;
+      clearFixedBtn.disabled = state.fixedAssignments.length === 0;
+
+      if (state.fixedAssignments.length === 0) {
+        fixedListArea.innerHTML = `<div class="fixed-empty">지정된 근무자가 없습니다.</div>`;
+        return;
+      }
+
+      const rows = [...state.fixedAssignments]
+        .map((item) => ({
+          ...item,
+          person: PEOPLE[item.personIndex],
+          slot: getSlotById(item.slotId)
+        }))
+        .sort((a, b) => {
+          if (a.slot.date !== b.slot.date) {
+            return a.slot.date.localeCompare(b.slot.date);
+          }
+          if (a.slot.part !== b.slot.part) {
+            return a.slot.part.localeCompare(b.slot.part);
+          }
+          return a.slot.partOrder - b.slot.partOrder;
+        })
+        .map((item) => `
+          <tr class="fixed-row">
+            <td><strong>${item.person.name}</strong><br><span class="muted">${item.person.team}</span></td>
+            <td>${slotLabel(item.slot)}<br><span class="muted">${item.slot.duty}</span></td>
+            <td><button type="button" data-remove-fixed="${item.personIndex}">해제</button></td>
+          </tr>
+        `)
+        .join("");
+
+      fixedListArea.innerHTML = `
+        <div class="table-wrap">
+          <table class="fixed-list">
+            <thead>
+              <tr>
+                <th>성명</th>
+                <th>근무 슬롯</th>
+                <th>관리</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      `;
+
+      fixedListArea.querySelectorAll("button[data-remove-fixed]").forEach((button) => {
+        button.addEventListener("click", () => {
+          removeFixedAssignment(Number(button.dataset.removeFixed));
+        });
+      });
+    }
+
+    function resetDrawAfterFixedChange(message) {
+      const draw = buildDraw(state.seed);
+      state = {
+        ...state,
+        ...draw,
+        revealed: false,
+        selectedIndex: chooseSelectedPerson(draw.assignments),
+        animatingPath: null
+      };
+      renderAll();
+      showToast(message);
+    }
+
+    function resetDrawAfterRosterChange(message) {
+      state.fixedAssignments = state.fixedAssignments.filter((item) => !isExtraExcluded(item.personIndex));
+      resetDrawAfterFixedChange(message);
+    }
+
+    function addFixedAssignment() {
+      const personIndex = Number(fixedPersonSelect.value);
+      const slotId = fixedSlotSelect.value;
+
+      if (!Number.isInteger(personIndex) || personIndex < 0 || !slotId) {
+        showToast("사람과 근무 슬롯을 모두 선택해주세요.");
+        return;
+      }
+      if (isPersonFixed(personIndex)) {
+        showToast("이미 지정된 사람입니다.");
+        return;
+      }
+      if (isExtraExcluded(personIndex)) {
+        showToast("제외된 사람은 지정할 수 없습니다.");
+        return;
+      }
+      if (isSlotFixed(slotId)) {
+        showToast("이미 지정된 근무 슬롯입니다.");
+        return;
+      }
+
+      state.fixedAssignments = [...state.fixedAssignments, { personIndex, slotId }];
+      resetDrawAfterFixedChange(`${PEOPLE[personIndex].name} 지정 배치 완료`);
+    }
+
+    function removeFixedAssignment(personIndex) {
+      const fixed = getFixedAssignment(personIndex);
+      if (!fixed) {
+        return;
+      }
+      state.fixedAssignments = state.fixedAssignments.filter((item) => item.personIndex !== personIndex);
+      resetDrawAfterFixedChange(`${PEOPLE[personIndex].name} 지정 해제`);
+    }
+
+    function clearFixedAssignments() {
+      if (state.fixedAssignments.length === 0) {
+        return;
+      }
+      state.fixedAssignments = [];
+      resetDrawAfterFixedChange("지정 배치를 모두 해제했습니다.");
+    }
+
+    function renderPeople() {
+      peopleBody.innerHTML = PEOPLE.map((person, index) => {
+        const assignmentsForPerson = state.assignments.filter((item) => item.personIndex === index);
+        const assignment = assignmentsForPerson[0];
+        const fixed = getFixedAssignment(index);
+        const fixedSlot = fixed ? getSlotById(fixed.slotId) : null;
+        const extraExcluded = isExtraExcluded(index);
+        const active = index === state.selectedIndex ? "active" : "";
+        const repeatCount = assignmentsForPerson.length > 1 ? assignmentsForPerson.length - 1 : 0;
+        const sourceClass = extraExcluded ? "" : fixed ? "fixed" : repeatCount ? "fixed" : "draw";
+        const sourceText = extraExcluded ? "제외" : fixed ? "지정" : repeatCount ? "중복" : "추첨";
+        const resultText = extraExcluded
+          ? "추가 제외"
+          : assignment && (state.revealed || fixed)
+            ? `${assignment.slot.dateLabel} ${assignment.slot.part}-${assignment.slot.partOrder}${repeatCount ? ` 외 ${repeatCount}회` : ""}`
+          : fixedSlot
+            ? `${fixedSlot.dateLabel} ${fixedSlot.part}-${fixedSlot.partOrder}`
+            : "";
+        const fixedClass = fixed || repeatCount ? "fixed-row" : extraExcluded ? "excluded" : "";
+        return `
+          <tr class="${active} ${fixedClass}" data-person-index="${index}">
+            <td>
+              <div class="name-cell">
+                <span class="number">${index + 1}</span>
+                <span class="person-name">${person.name}</span>
+                ${(assignment && (state.revealed || fixed)) || extraExcluded ? `<span class="source-badge ${sourceClass}">${sourceText}</span>` : ""}
+              </div>
+              <div class="muted">${resultText}</div>
+            </td>
+            <td>${person.team}</td>
+            <td>${person.title}</td>
+          </tr>
+        `;
+      }).join("");
+
+      peopleBody.querySelectorAll("tr").forEach((row) => {
+        row.addEventListener("click", () => {
+          const index = Number(row.dataset.personIndex);
+          state.selectedIndex = index;
+          renderPeople();
+          renderResults();
+          animateSelectedPath(index);
+        });
+      });
+    }
+
+    function renderExcluded() {
+      renderExcludedControls();
+      const baseRows = EXCLUDED.map((person) => `
+        <tr class="excluded">
+          <td><strong>${person.name}</strong><br><span class="muted">기본 제외</span></td>
+          <td>${person.team}</td>
+          <td>${person.title}</td>
+          <td><span class="source-badge">고정</span></td>
+        </tr>
+      `);
+      const extraRows = state.excludedPersonIndices.map((personIndex) => {
+        const person = PEOPLE[personIndex];
+        return `
+          <tr class="excluded">
+            <td><strong>${person.name}</strong><br><span class="muted">추가 제외</span></td>
+            <td>${person.team}</td>
+            <td>${person.title}</td>
+            <td><button type="button" data-remove-excluded="${personIndex}">해제</button></td>
+          </tr>
+        `;
+      });
+
+      excludedBody.innerHTML = [...baseRows, ...extraRows].join("");
+      excludedBody.querySelectorAll("button[data-remove-excluded]").forEach((button) => {
+        button.addEventListener("click", () => removeExtraExcluded(Number(button.dataset.removeExcluded)));
+      });
+    }
+
+    function renderExcludedControls() {
+      const previousValue = excludedPersonSelect.value;
+      const fixedPeople = new Set(state.fixedAssignments.map((item) => item.personIndex));
+      excludedPersonSelect.innerHTML = [
+        `<option value="">추가 제외할 사람 선택</option>`,
+        ...PEOPLE.map((person, index) => {
+          const disabled = isExtraExcluded(index) || fixedPeople.has(index) ? "disabled" : "";
+          return `<option value="${index}" ${disabled}>${person.name} / ${person.team} / ${person.title}</option>`;
+        })
+      ].join("");
+
+      if (previousValue && !isExtraExcluded(Number(previousValue)) && !fixedPeople.has(Number(previousValue))) {
+        excludedPersonSelect.value = previousValue;
+      }
+
+      addExcludedBtn.disabled = getEligiblePeople().length === 0;
+      clearExtraExcludedBtn.disabled = state.excludedPersonIndices.length === 0;
+    }
+
+    function addExtraExcluded() {
+      const personIndex = Number(excludedPersonSelect.value);
+      if (!Number.isInteger(personIndex) || personIndex < 0) {
+        showToast("추가 제외할 사람을 선택해주세요.");
+        return;
+      }
+      if (isPersonFixed(personIndex)) {
+        showToast("지정 배치된 사람은 먼저 지정 해제해주세요.");
+        return;
+      }
+      if (isExtraExcluded(personIndex)) {
+        showToast("이미 제외된 사람입니다.");
+        return;
+      }
+
+      state.excludedPersonIndices = [...state.excludedPersonIndices, personIndex];
+      resetDrawAfterRosterChange(`${PEOPLE[personIndex].name} 추가 제외`);
+    }
+
+    function removeExtraExcluded(personIndex) {
+      if (!isExtraExcluded(personIndex)) {
+        return;
+      }
+      state.excludedPersonIndices = state.excludedPersonIndices.filter((index) => index !== personIndex);
+      resetDrawAfterRosterChange(`${PEOPLE[personIndex].name} 제외 해제`);
+    }
+
+    function clearExtraExcluded() {
+      if (state.excludedPersonIndices.length === 0) {
+        return;
+      }
+      state.excludedPersonIndices = [];
+      resetDrawAfterRosterChange("추가 제외를 모두 해제했습니다.");
+    }
+
+    function renderScheduleGrid() {
+      scheduleGrid.innerHTML = SLOT_PLAN.map((day) => {
+        const resultNames = state.revealed
+          ? state.assignments
+              .filter((item) => item.slot.date === day.date)
+              .sort(compareAssignments)
+              .map((item) => `<li>${item.person.name} <span class="muted">${item.slot.part}</span> <span class="source-badge ${item.source === "지정" ? "fixed" : "draw"}">${item.source}</span></li>`)
+              .join("")
+          : "";
+        return `
+          <div class="day-box">
+            <strong>${day.label}(${day.day})</strong>
+            <span>${day.slots.length}명</span>
+            ${resultNames ? `<ul>${resultNames}</ul>` : ""}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderStatus() {
+      const check = validateDraw(state.assignments.length ? state.assignments : []);
+      const scheduleText = SLOT_PLAN.map((day) => `${day.label} ${day.slots.length}명`).join(" · ");
+      const eligibleCount = getEligiblePeople().length;
+      const randomCount = state.drawPeople.length;
+      const repeatCount = repeatNeed();
+      const badges = [
+        `<span class="badge ${eligibleCount ? "ok" : "hot"}">근무가능 ${eligibleCount}명 / 슬롯 ${baseSlots.length}개</span>`,
+        `<span class="badge ${state.fixedAssignments.length ? "warn" : "ok"}">지정 ${state.fixedAssignments.length}명</span>`,
+        `<span class="badge ok">사다리 칸 ${randomCount}개</span>`,
+        `<span class="badge ${repeatCount ? "warn" : "ok"}">중복 필요 ${repeatCount}명</span>`,
+        `<span class="badge warn">${scheduleText}</span>`
+      ];
+      if (state.revealed) {
+        badges.push(`<span class="badge ${check.slotsUnique && check.slotsFilled ? "ok" : "hot"}">슬롯 배치 ${check.slotsUnique && check.slotsFilled ? "완료" : "확인필요"}</span>`);
+        badges.push(`<span class="badge ${check.workersCovered ? "ok" : "hot"}">근무가능자 포함 ${check.workersCovered ? "완료" : "확인필요"}</span>`);
+        badges.push(`<span class="badge ${check.repeatCount ? "warn" : "ok"}">중복 배치 ${check.repeatCount}건</span>`);
+        badges.push(`<span class="badge ${check.fixedPeopleUnique && check.fixedSlotsUnique ? "ok" : "hot"}">지정 중복 ${check.fixedPeopleUnique && check.fixedSlotsUnique ? "없음" : "확인필요"}</span>`);
+      }
+      statusBar.innerHTML = badges.join("");
+    }
+
+    function renderResults() {
+      if (!state.revealed) {
+        resultSummary.textContent = "추첨 전";
+        resultArea.innerHTML = `
+          <div class="empty-state">
+            <strong>결과 대기</strong>
+            <span>사다리 타기 버튼을 누르면 근무표가 표시됩니다.</span>
+          </div>
+        `;
+        return;
+      }
+
+      resultSummary.textContent = `${baseSlots.length}칸 배치 완료 / 지정 ${state.fixedAssignments.length}명 / 중복 ${validateDraw(state.assignments).repeatCount}건`;
+      const rows = [...state.assignments].sort(compareAssignments).map((item) => {
+        const active = item.personIndex === state.selectedIndex ? "active" : "";
+        const sourceClass = item.source === "지정" ? "fixed" : "draw";
+        return `
+          <tr class="${active}" data-person-index="${item.personIndex}">
+            <td><strong>${item.slot.dateLabel}</strong></td>
+            <td>${item.slot.part}-${item.slot.partOrder}</td>
+            <td>${item.slot.time}</td>
+            <td>${item.slot.duty}</td>
+            <td><strong>${item.person.name}</strong></td>
+            <td>${item.person.team}</td>
+            <td>${item.person.title}</td>
+            <td><span class="source-badge ${sourceClass}">${item.source}</span></td>
+          </tr>
+        `;
+      }).join("");
+
+      resultArea.innerHTML = `
+        <div class="table-wrap">
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th>날짜</th>
+                <th>파트</th>
+                <th>근무시간</th>
+                <th>업무</th>
+                <th>성명</th>
+                <th>팀</th>
+                <th>직위</th>
+                <th>방식</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      `;
+
+      resultArea.querySelectorAll("tr[data-person-index]").forEach((row) => {
+        row.addEventListener("click", () => {
+          const index = Number(row.dataset.personIndex);
+          state.selectedIndex = index;
+          renderPeople();
+          renderResults();
+          animateSelectedPath(index);
+        });
+      });
+    }
+
+    function compareAssignments(a, b) {
+      if (a.slot.date !== b.slot.date) {
+        return a.slot.date.localeCompare(b.slot.date);
+      }
+      if (a.slot.part !== b.slot.part) {
+        return a.slot.part.localeCompare(b.slot.part);
+      }
+      return a.slot.partOrder - b.slot.partOrder;
+    }
+
+    function getLayout() {
+      const columnCount = Math.max(1, state.drawPeople.length);
+      const gap = 74;
+      const left = 78;
+      const right = 78;
+      const top = 118;
+      const bottom = 524;
+      const width = Math.max(360, left + right + (columnCount - 1) * gap);
+      const height = 640;
+      const lineTop = top + 24;
+      const lineBottom = bottom - 44;
+      const levels = Math.max(28, Math.round(columnCount * 1.45));
+      return { columnCount, gap, left, top, bottom, width, height, lineTop, lineBottom, levels };
+    }
+
+    function setupCanvas(width, height) {
+      const ratio = window.devicePixelRatio || 1;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      canvas.width = Math.floor(width * ratio);
+      canvas.height = Math.floor(height * ratio);
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
+
+    function xFor(index, layout) {
+      return layout.left + index * layout.gap;
+    }
+
+    function yForLevel(level, layout) {
+      const range = layout.lineBottom - layout.lineTop;
+      return layout.lineTop + ((level + 1) / (layout.levels + 1)) * range;
+    }
+
+    function drawLadder() {
+      const layout = getLayout();
+      setupCanvas(layout.width, layout.height);
+      ctx.clearRect(0, 0, layout.width, layout.height);
+      drawCanvasBackground(layout);
+
+      if (state.drawPeople.length === 0) {
+        drawEmptyLadder(layout);
+        return;
+      }
+
+      drawLabels(layout);
+
+      const bars = state.bars.length ? state.bars : createBars(state.drawPeople.length, mulberry32(hashSeed(state.seed)));
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#bec8d5";
+      ctx.lineWidth = 2;
+
+      for (let i = 0; i < state.drawPeople.length; i += 1) {
+        const x = xFor(i, layout);
+        ctx.beginPath();
+        ctx.moveTo(x, layout.lineTop);
+        ctx.lineTo(x, layout.lineBottom);
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = "#6f7f91";
+      ctx.lineWidth = 3;
+      for (const bar of bars) {
+        const x1 = xFor(bar.left, layout);
+        const x2 = xFor(bar.left + 1, layout);
+        const y = yForLevel(bar.level, layout);
+        ctx.beginPath();
+        ctx.moveTo(x1, y);
+        ctx.lineTo(x2, y);
+        ctx.stroke();
+      }
+
+      if (state.revealed && state.assignments.length) {
+        drawPath(state.selectedIndex, layout);
+      }
+    }
+
+    function drawEmptyLadder(layout) {
+      ctx.fillStyle = "#17202a";
+      ctx.font = "800 18px Malgun Gothic, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("모든 인원이 지정 배치되었습니다.", layout.width / 2, 292);
+      ctx.fillStyle = "#5f6b7a";
+      ctx.font = "13px Malgun Gothic, sans-serif";
+      ctx.fillText("추첨할 남은 인원이 없습니다.", layout.width / 2, 322);
+    }
+
+    function drawCanvasBackground(layout) {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, layout.width, layout.height);
+      ctx.fillStyle = "#f7fafc";
+      ctx.fillRect(0, 92, layout.width, 456);
+      ctx.fillStyle = "#edf3f7";
+      ctx.fillRect(0, 0, layout.width, 72);
+      ctx.fillRect(0, 560, layout.width, 80);
+      ctx.strokeStyle = "#d7dee8";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, 92);
+      ctx.lineTo(layout.width, 92);
+      ctx.moveTo(0, 548);
+      ctx.lineTo(layout.width, 548);
+      ctx.stroke();
+    }
+
+    function drawLabels(layout) {
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      state.drawPeople.forEach((entry, index) => {
+        const person = entry.person;
+        const x = xFor(index, layout);
+        const active = entry.personIndex === state.selectedIndex && state.revealed;
+        ctx.fillStyle = active ? "#d9534f" : "#17202a";
+        ctx.font = "800 14px Malgun Gothic, sans-serif";
+        ctx.fillText(person.name, x, 24);
+        ctx.fillStyle = "#5f6b7a";
+        ctx.font = "11px Malgun Gothic, sans-serif";
+        ctx.fillText(entry.repeat ? "중복" : person.title, x, 47);
+      });
+
+      const slots = state.bottomSlots.length ? state.bottomSlots : state.drawSlots;
+      slots.forEach((slot, index) => {
+        const x = xFor(index, layout);
+        const colorIndex = SLOT_PLAN.findIndex((day) => day.date === slot.date);
+        const color = COLORS[Math.max(0, colorIndex) % COLORS.length];
+        ctx.fillStyle = color;
+        roundRect(ctx, x - 29, 570, 58, 23, 11);
+        ctx.fill();
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "800 11px Malgun Gothic, sans-serif";
+        ctx.fillText(slot.dateLabel, x, 582);
+        ctx.fillStyle = "#17202a";
+        ctx.font = "700 11px Malgun Gothic, sans-serif";
+        ctx.fillText(`${slot.part}-${slot.partOrder}`, x, 611);
+      });
+    }
+
+    function buildPathSegments(startIndex, layout) {
+      const segments = [];
+      const bars = [...state.bars].sort((a, b) => a.level - b.level || a.left - b.left);
+      let position = startIndex;
+      let x = xFor(position, layout);
+      let y = layout.lineTop;
+      for (const bar of bars) {
+        const barY = yForLevel(bar.level, layout);
+        segments.push({ x1: x, y1: y, x2: x, y2: barY });
+        y = barY;
+        if (bar.left === position) {
+          const nx = xFor(position + 1, layout);
+          segments.push({ x1: x, y1: y, x2: nx, y2: y });
+          position += 1;
+          x = nx;
+        } else if (bar.left === position - 1) {
+          const nx = xFor(position - 1, layout);
+          segments.push({ x1: x, y1: y, x2: nx, y2: y });
+          position -= 1;
+          x = nx;
+        }
+      }
+      segments.push({ x1: x, y1: y, x2: x, y2: layout.lineBottom });
+      return segments;
+    }
+
+    function drawPath(index, layout) {
+      const selected = state.assignments.find((item) => item.personIndex === index);
+      if (!selected || selected.source === "지정") {
+        return;
+      }
+
+      const segments = buildPathSegments(selected.drawIndex, layout);
+      const progress = state.animatingPath && state.animatingPath.index === index ? state.animatingPath.progress : 1;
+      const totalLength = segments.reduce((sum, segment) => sum + segmentLength(segment), 0);
+      let remaining = totalLength * progress;
+
+      ctx.save();
+      ctx.strokeStyle = "#d9534f";
+      ctx.lineWidth = 6;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.shadowColor = "rgba(217, 83, 79, 0.22)";
+      ctx.shadowBlur = 10;
+
+      for (const segment of segments) {
+        if (remaining <= 0) {
+          break;
+        }
+        const length = segmentLength(segment);
+        const ratio = Math.min(1, remaining / length);
+        ctx.beginPath();
+        ctx.moveTo(segment.x1, segment.y1);
+        ctx.lineTo(
+          segment.x1 + (segment.x2 - segment.x1) * ratio,
+          segment.y1 + (segment.y2 - segment.y1) * ratio
+        );
+        ctx.stroke();
+        remaining -= length;
+      }
+      ctx.restore();
+
+      if (progress >= 1) {
+        ctx.fillStyle = "#d9534f";
+        ctx.font = "800 13px Malgun Gothic, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(`${selected.person.name} → ${selected.slot.dateLabel} ${selected.slot.part}`, layout.width / 2, 86);
+      }
+    }
+
+    function segmentLength(segment) {
+      return Math.hypot(segment.x2 - segment.x1, segment.y2 - segment.y1);
+    }
+
+    function animateSelectedPath(index) {
+      const startedAt = performance.now();
+      const duration = 760;
+      function tick(now) {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        state.animatingPath = { index, progress };
+        drawLadder();
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          state.animatingPath = null;
+          drawLadder();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function roundRect(context, x, y, width, height, radius) {
+      const r = Math.min(radius, width / 2, height / 2);
+      context.beginPath();
+      context.moveTo(x + r, y);
+      context.arcTo(x + width, y, x + width, y + height, r);
+      context.arcTo(x + width, y + height, x, y + height, r);
+      context.arcTo(x, y + height, x, y, r);
+      context.arcTo(x, y, x + width, y, r);
+      context.closePath();
+    }
+
+    function resultRows() {
+      return [...state.assignments].sort(compareAssignments).map((item) => ({
+        날짜: item.slot.dateLabel,
+        파트: `${item.slot.part}-${item.slot.partOrder}`,
+        근무시간: item.slot.time,
+        업무: item.slot.duty,
+        성명: item.person.name,
+        팀: item.person.team,
+        직위: item.person.title,
+        방식: item.source,
+        시드: state.seed
+      }));
+    }
+
+    function toTsv(rows) {
+      const headers = Object.keys(rows[0]);
+      return [
+        headers.join("\t"),
+        ...rows.map((row) => headers.map((header) => row[header]).join("\t"))
+      ].join("\n");
+    }
+
+    function toCsv(rows) {
+      const headers = Object.keys(rows[0]);
+      const escape = (value) => `"${String(value).replaceAll('"', '""')}"`;
+      return [
+        headers.map(escape).join(","),
+        ...rows.map((row) => headers.map((header) => escape(row[header])).join(","))
+      ].join("\r\n");
+    }
+
+    async function copyResults() {
+      if (!state.revealed) {
+        return;
+      }
+      const text = toTsv(resultRows());
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("결과를 복사했습니다.");
+      } catch (error) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        showToast("결과를 복사했습니다.");
+      }
+    }
+
+    function downloadCsv() {
+      if (!state.revealed) {
+        return;
+      }
+      const csv = `\ufeff${toCsv(resultRows())}`;
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `family-sale-sales2-${state.seed}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast("CSV 파일을 저장했습니다.");
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1800);
+    }
+
+    function init() {
+      seedInput.value = state.seed;
+      const draw = buildDraw(state.seed);
+      state.bars = draw.bars;
+      state.bottomSlots = draw.bottomSlots;
+      state.drawPeople = draw.drawPeople;
+      state.drawSlots = draw.drawSlots;
+      state.assignments = draw.assignments;
+      state.selectedIndex = chooseSelectedPerson(draw.assignments);
+      state.revealed = false;
+      renderAll();
+
+      drawBtn.addEventListener("click", () => runDraw(false));
+      rerollBtn.addEventListener("click", () => runDraw(true));
+      addFixedBtn.addEventListener("click", addFixedAssignment);
+      clearFixedBtn.addEventListener("click", clearFixedAssignments);
+      addExcludedBtn.addEventListener("click", addExtraExcluded);
+      clearExtraExcludedBtn.addEventListener("click", clearExtraExcluded);
+      copyBtn.addEventListener("click", copyResults);
+      csvBtn.addEventListener("click", downloadCsv);
+      printBtn.addEventListener("click", () => window.print());
+      seedInput.addEventListener("change", () => {
+        const nextSeed = seedInput.value.trim() || makeSeed();
+        state.seed = nextSeed;
+        seedInput.value = nextSeed;
+        const draw = buildDraw(nextSeed);
+        state.bars = draw.bars;
+        state.bottomSlots = draw.bottomSlots;
+        state.drawPeople = draw.drawPeople;
+        state.drawSlots = draw.drawSlots;
+        state.assignments = draw.assignments;
+        state.revealed = false;
+        state.selectedIndex = chooseSelectedPerson(draw.assignments);
+        renderAll();
+      });
+
+      window.addEventListener("resize", () => drawLadder());
+    }
+
+    init();
+  </script>
+</body>
+</html>
